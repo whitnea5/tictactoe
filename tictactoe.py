@@ -28,16 +28,20 @@ def display_board(items):
 
 def await_user_input(player, player1, player2, board):
 	chosenSquare = int(input("Please enter a number player {}: ".format(player)))
-	if player == 1:
-		board[chosenSquare] = player1
-		display_board(board)
-		check_for_winner(player1, player, board)
-		player = 2
+	if position_available(board, chosenSquare):
+		if player == 1:
+
+			board[chosenSquare] = player1
+			display_board(board)
+			check_for_winner(player1, player, board)
+			player = 2
+		else:
+			board[chosenSquare] = player2
+			display_board(board)
+			check_for_winner(player2, player, board)		
+			player = 1
 	else:
-		board[chosenSquare] = player2
-		display_board(board)
-		check_for_winner(player2, player, board)		
-		player = 1
+		print("Position already chosen, please choose again")
 	await_user_input(player, player1, player2, board)
 
 def check_for_winner(marker, player, board):
@@ -81,5 +85,8 @@ def end_game():
 		start_game()
 	else:
 		quit()
+
+def position_available(board, position):
+	return board[position] == " "
 
 start_game()
